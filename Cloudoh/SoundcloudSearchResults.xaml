@@ -1,0 +1,153 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="Cloudoh.SoundcloudSearchResults"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:telerik="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives"
+    xmlns:telerikCore="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Core"
+    xmlns:cloudoh="clr-namespace:Cloudoh"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="PortraitOrLandscape"
+    Orientation="Portrait"
+    mc:Ignorable="d"
+    shell:SystemTray.IsVisible="True"
+    shell:SystemTray.ForegroundColor="MintCream"
+    shell:SystemTray.BackgroundColor="#FFFF6600">
+
+    <phone:PhoneApplicationPage.Resources>
+
+        <DataTemplate x:Key="loadingTemplate">
+            <StackPanel>
+                <ProgressBar IsIndeterminate="True" VerticalAlignment="Top"></ProgressBar>
+            </StackPanel>
+        </DataTemplate>
+
+    </phone:PhoneApplicationPage.Resources>
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="{StaticResource PhoneAccentBrush}" Margin="0,-1,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--TitlePanel contains the name of the application and page title-->
+        <cloudoh:Banner Grid.Row="0"/>
+
+        <Border Background="{StaticResource PhoneAccentBrush}" Grid.Row="1" x:Name="borderFiltered">
+            <TextBlock Text="[ results are filtered ]" Foreground="White" HorizontalAlignment="Center" />
+        </Border>
+        
+        <phone:Pivot x:Name="pivotMain" Grid.Row="2" Background="White" Style="{StaticResource PivotStyleRight}" SelectionChanged="pivotSelectionChanged">
+
+            <phone:PivotItem Header="hot" Background="White">
+
+                <Grid>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <telerik:RadDataBoundListBox x:Name="lstSearchResults" 
+                                     Grid.Row="0"
+                                     ItemsSource="{Binding SoundcloudSearchResultsHot}"                                     
+                                     Background="White"
+                                     ItemAnimationMode="PlayAll"
+                                     EmptyContentDisplayMode="Always"
+                                     EmptyContentTemplate="{StaticResource loadingTemplate}"
+                                     ItemTemplate="{StaticResource templateSoundcloud}"
+                                     telerikCore:InteractionEffectManager.IsInteractionEnabled="True">
+                        <telerik:RadDataBoundListBox.ItemAddedAnimation>
+                            <telerikCore:RadAnimationGroup>
+                                <telerikCore:RadFadeAnimation Duration="0:0:0.75" EndOpacity="1" StartOpacity="0">
+                                    <telerikCore:RadFadeAnimation.Easing>
+                                        <CubicEase EasingMode="EaseOut"></CubicEase>
+                                    </telerikCore:RadFadeAnimation.Easing>
+                                </telerikCore:RadFadeAnimation>
+                                <telerikCore:RadMoveXAnimation  Duration="0:0:0.75" StartX="500" EndX="0">
+                                    <telerikCore:RadMoveXAnimation.Easing>
+                                        <CubicEase EasingMode="EaseOut"></CubicEase>
+                                    </telerikCore:RadMoveXAnimation.Easing>
+                                </telerikCore:RadMoveXAnimation>
+                            </telerikCore:RadAnimationGroup>
+                        </telerik:RadDataBoundListBox.ItemAddedAnimation>
+                    </telerik:RadDataBoundListBox>
+
+                    <TextBlock Visibility="Collapsed"
+                               VerticalAlignment="Top" Grid.Row="0" x:Name="noResults"                        
+                       Style="{StaticResource PhoneTextSubtleStyle}" 
+                       FontSize="{StaticResource PhoneFontSizeLarge}"
+                       Text="There were no results."/>
+
+                </Grid>
+
+            </phone:PivotItem>
+
+            <phone:PivotItem Header="new" Background="White">
+
+                <Grid>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+
+                    <telerik:RadDataBoundListBox x:Name="lstSearchResultsNew" 
+                                     Grid.Row="0"
+                                     ItemsSource="{Binding SoundcloudSearchResultsNew}"                                     
+                                     Background="White"
+                                     ItemAnimationMode="PlayAll"
+                                     EmptyContentDisplayMode="Always"
+                                     EmptyContentTemplate="{StaticResource loadingTemplate}"
+                                     ItemTemplate="{StaticResource templateSoundcloud}"
+                                     telerikCore:InteractionEffectManager.IsInteractionEnabled="True">
+                        <telerik:RadDataBoundListBox.ItemAddedAnimation>
+                            <telerikCore:RadAnimationGroup>
+                                <telerikCore:RadFadeAnimation Duration="0:0:0.75" EndOpacity="1" StartOpacity="0">
+                                    <telerikCore:RadFadeAnimation.Easing>
+                                        <CubicEase EasingMode="EaseOut"></CubicEase>
+                                    </telerikCore:RadFadeAnimation.Easing>
+                                </telerikCore:RadFadeAnimation>
+                                <telerikCore:RadMoveXAnimation Duration="0:0:0.75" StartX="500" EndX="0">
+                                    <telerikCore:RadMoveXAnimation.Easing>
+                                        <CubicEase EasingMode="EaseOut"></CubicEase>
+                                    </telerikCore:RadMoveXAnimation.Easing>
+                                </telerikCore:RadMoveXAnimation>
+                            </telerikCore:RadAnimationGroup>
+                        </telerik:RadDataBoundListBox.ItemAddedAnimation>
+                    </telerik:RadDataBoundListBox>
+
+                    <TextBlock Visibility="Collapsed" VerticalAlignment="Top" Grid.Row="0" x:Name="noResultsNew"
+                       Style="{StaticResource PhoneTextSubtleStyle}"
+                       FontSize="{StaticResource PhoneFontSizeLarge}"
+                       Text="There were no results."/>
+
+                </Grid>
+
+            </phone:PivotItem>
+
+        </phone:Pivot>
+
+        <StackPanel Grid.Row="2" Background="Transparent" Height="65" VerticalAlignment="Top">
+            <TextBlock LineHeight="50" VerticalAlignment="Center" x:Name="txtQuery" 
+                       MaxWidth="270" HorizontalAlignment="Left" FontSize="42" 
+                       Text="" 
+                       Margin="20,2,0,0" Foreground="White"></TextBlock>
+        </StackPanel>
+
+    </Grid>
+
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" BackgroundColor="White" ForegroundColor="Black"  Opacity="0.85">
+            <shell:ApplicationBarIconButton IconUri="/Images/76x76/light/appbar.settings.png" Text="settings" Click="mnuSettings_Click"/>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+
+
+</phone:PhoneApplicationPage>

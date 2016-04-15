@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
+  <DefaultLanguage xmlns="" code="en-GB" />
+  <Languages xmlns="">
+    <Language code="en-GB" />
+    <Language code="qps-ploc" />
+  </Languages>
+  <App xmlns="" HubType="1" ProductID="{90873a38-9c3f-44dc-a3f3-144edf032085}" Title="Cloudoh" RuntimeType="Silverlight" Version="1.12" Genre="apps.normal" Author="My Own Limited" Description="Unofficial SoundCloud client for Windows Phone 8" Publisher="My Own Limited" PublisherID="{ec95dd24-90f9-42f0-9b75-9c6a4c48227b}">
+    <IconPath IsRelative="true" IsResource="false">app_icon.png</IconPath>
+    <Capabilities>
+      <Capability Name="ID_CAP_NETWORKING" />
+      <Capability Name="ID_CAP_MEDIALIB_AUDIO" />
+      <Capability Name="ID_CAP_MEDIALIB_PLAYBACK" />
+      <Capability Name="ID_CAP_WEBBROWSERCOMPONENT" />
+      <Capability Name="ID_CAP_MEDIALIB_PHOTO" />
+      <Capability Name="ID_CAP_SENSORS" />
+    </Capabilities>
+    <Tasks>
+      <DefaultTask Name="_default" NavigationPage="MainPage.xaml" ActivationPolicy="Replace" />
+      <ExtendedTask Name="BackgroundTask">
+        <BackgroundServiceAgent Specifier="AudioPlayerAgent" Name="SoundcloudPlayer" Source="Cloudoh.Audio.Player" Type="Cloudoh.Audio.Player.AudioPlayer" />
+        <BackgroundServiceAgent Specifier="AudioStreamingAgent" Name="SoundcloudAgent" Source="Cloudoh.Audio.Agent" Type="Cloudoh.Audio.Agent.SoundcloudAudioTrackStreamer" />
+      </ExtendedTask>
+    </Tasks>
+    <Tokens>
+      <PrimaryToken TokenID="DataBoundToken" TaskName="_default">
+        <TemplateCycle>
+          <SmallImageURI IsRelative="true" IsResource="false">tile_small.png</SmallImageURI>
+          <Title>
+          </Title>
+          <Photo01ImageURI IsRelative="true" IsResource="false">tile_medium.png</Photo01ImageURI>
+          <Photo02ImageURI IsRelative="true" IsResource="false">
+          </Photo02ImageURI>
+          <Photo03ImageURI IsRelative="true" IsResource="false">
+          </Photo03ImageURI>
+          <Photo04ImageURI IsRelative="true" IsResource="false">
+          </Photo04ImageURI>
+          <Photo05ImageURI IsRelative="true" IsResource="false">
+          </Photo05ImageURI>
+          <Photo06ImageURI IsRelative="true" IsResource="false">
+          </Photo06ImageURI>
+          <Photo07ImageURI IsRelative="true" IsResource="false">
+          </Photo07ImageURI>
+          <Photo08ImageURI IsRelative="true" IsResource="false">
+          </Photo08ImageURI>
+          <Photo09ImageURI IsRelative="true" IsResource="false">
+          </Photo09ImageURI>
+          <Count>0</Count>
+          <HasLarge>True</HasLarge>
+          <DeviceLockImageURI IsRelative="true" IsResource="false">
+          </DeviceLockImageURI>
+        </TemplateCycle>
+      </PrimaryToken>
+    </Tokens>
+    <Extensions>
+      <Protocol Name="cloudoh" NavUriFragment="encodedLaunchUri=%s" TaskID="_default" />
+    </Extensions>
+    <ScreenResolutions>
+      <ScreenResolution Name="ID_RESOLUTION_WVGA" />
+      <ScreenResolution Name="ID_RESOLUTION_WXGA" />
+      <ScreenResolution Name="ID_RESOLUTION_HD720P" />
+    </ScreenResolutions>
+  </App>
+</Deployment>

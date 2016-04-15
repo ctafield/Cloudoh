@@ -1,0 +1,14 @@
+﻿<viewModels:SoundcloudViewModel
+    xmlns:viewModels="clr-namespace:Cloudoh.ViewModels"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"       
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Description="Something here that fills the screen with information"
+    UserName="BTK☣"
+    Title="PARANOIA 001 Mix (22/05/05)"
+    CommentCount="42"
+    StreamType="Dashboard"            
+    PlayCount="10"
+    AlbumArt="https://i1.sndcdn.com/avatars-000051237518-x5c1hn-t200x200.jpg?3eddc42"
+    AvatarUrl="https://i3.sndcdn.com/artworks-000058785679-2i6xdo-t200x200.jpg?3eddc42"
+    LikeCount="20">
+</viewModels:SoundcloudViewModel>

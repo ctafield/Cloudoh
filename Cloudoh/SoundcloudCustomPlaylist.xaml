@@ -1,0 +1,281 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="Cloudoh.SoundcloudCustomPlaylist"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:cloudoh="clr-namespace:Cloudoh"    
+    xmlns:telerik="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives"
+    xmlns:telerikCore="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Core"
+    xmlns:convertors="clr-namespace:Cloudoh.Convertors"
+    xmlns:inputPrompt="clr-namespace:Telerik.Windows.Controls.InputPrompt;assembly=Telerik.Windows.Controls.Primitives"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d"
+    shell:SystemTray.IsVisible="True"
+    shell:SystemTray.ForegroundColor="MintCream"
+    shell:SystemTray.BackgroundColor="#FFFF6600">
+
+    <phone:PhoneApplicationPage.Resources>
+
+        <ControlTemplate x:Key="RenameInputTemplate" TargetType="inputPrompt:RadInputPromptControl">
+            <Border Padding="12" Background="White">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <ContentControl x:Name="PART_Title" HorizontalContentAlignment="Left" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiBold}" Margin="{StaticResource PhoneMargin}" />
+                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                        <ContentControl HorizontalContentAlignment="Left" VerticalContentAlignment="Top" x:Name="PART_Message" Margin="12, 12, 12, 24" />
+                    </StackPanel>
+                    <telerik:RadTextBox x:Name="PART_TextBox1" InputScope="Text" Grid.Row="2" Text="{Binding Title}" />
+                    <telerik:RadPasswordBox x:Name="PART_PasswordBox1" Grid.Row="2" Visibility="Collapsed" />
+                    <CheckBox x:Name="PART_CheckBox" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Bottom" />
+                    <ContentControl Grid.Row="4" x:Name="PART_ButtonsContainer" HorizontalContentAlignment="Stretch">
+                        <ContentControl.ContentTemplate>
+                            <DataTemplate>
+                                <StackPanel x:Name="PART_ButtonsPanel" Orientation="Horizontal"></StackPanel>
+                            </DataTemplate>
+                        </ContentControl.ContentTemplate>
+                    </ContentControl>
+                </Grid>
+            </Border>
+        </ControlTemplate>
+
+        <convertors:LocalImageConverterLarge x:Key="LocalImageConverterLarge"/>
+
+        <DataTemplate x:Key="loadingTemplate">
+            <StackPanel>
+                <ProgressBar IsIndeterminate="True" VerticalAlignment="Top"></ProgressBar>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="footerTemplate">
+            <StackPanel Margin="0,40,0,0">
+                <TextBlock Text="{Binding}" Foreground="Transparent"></TextBlock>
+            </StackPanel>
+        </DataTemplate>
+
+        <shell:ApplicationBar x:Key="menuNormal" IsVisible="True" BackgroundColor="White" ForegroundColor="Black"  Opacity="0.85">
+            <shell:ApplicationBarIconButton IconUri="/Images/76x76/light/appbar.control.play.png" Text="play" Click="mnuPlay_Click"/>
+            <shell:ApplicationBarIconButton IconUri="/Images/76x76/light/appbar.share.png" Text="share" Click="mnuShare_Click"/>
+            <shell:ApplicationBarIconButton IconUri="/Images/76x76/light/appbar.edit.png" Text="rename" Click="mnuRename_Click"/>
+            <shell:ApplicationBarIconButton IconUri="/Images/76x76/light/appbar.list.reorder.png" Text="reorder" Click="mnuReorder_Click"/>
+            <shell:ApplicationBar.MenuItems>
+                <shell:ApplicationBarMenuItem Text="delete" Click="mnuDelete_Click" />
+                <shell:ApplicationBarMenuItem Text="pin to start" Click="mnuPinToStart_Click" />
+            </shell:ApplicationBar.MenuItems>
+        </shell:ApplicationBar>
+
+        <shell:ApplicationBar x:Key="menuBuiltinPlaylist" IsVisible="True" BackgroundColor="White" ForegroundColor="Black"  Opacity="0.85">
+            <shell:ApplicationBarIconButton IconUri="/Images/76x76/light/appbar.control.play.png" Text="play" Click="mnuPlay_Click"/>
+            <shell:ApplicationBar.MenuItems>
+                <shell:ApplicationBarMenuItem Text="pin to start" Click="mnuPinToStart_Click" />
+            </shell:ApplicationBar.MenuItems>
+
+        </shell:ApplicationBar>
+
+
+        <shell:ApplicationBar x:Key="menuSave" IsVisible="True" BackgroundColor="White" ForegroundColor="Black"  Opacity="0.85">
+            <shell:ApplicationBarIconButton IconUri="/Images/76x76/light/appbar.save.png" Text="save" Click="mnuSave_Click"/>
+        </shell:ApplicationBar>
+
+        <shell:ApplicationBar x:Key="menuDeleteSave" IsVisible="True" BackgroundColor="White" ForegroundColor="Black"  Opacity="0.85">
+            <shell:ApplicationBarIconButton IconUri="/Images/76x76/light/appbar.delete.png" Text="remove" Click="mnuRemove_Click"/>
+            <shell:ApplicationBarIconButton IconUri="/Images/76x76/light/appbar.save.png" Text="save" Click="mnuSave_Click"/>
+        </shell:ApplicationBar>
+
+        <Style x:Key="checkBoxTemplate" TargetType="telerik:ItemCheckBox">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="3"></Setter>
+            <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeMedium}"/>
+            <Setter Property="FontFamily" Value="{StaticResource PhoneFontFamilyNormal}"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="telerik:ItemCheckBox">
+                        <Grid Background="Transparent">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="MouseOver"/>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="CheckBackground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneRadioCheckBoxPressedBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill" Storyboard.TargetName="CheckMark">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneButtonBasePressedForegroundBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill" Storyboard.TargetName="IndeterminateMark">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneButtonBasePressedForegroundBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="CheckBackground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneDisabledBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill" Storyboard.TargetName="CheckMark">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneDisabledBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill" Storyboard.TargetName="IndeterminateMark">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneDisabledBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="CheckStates">
+                                    <VisualState x:Name="Checked">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="CheckMark">
+                                                <DiscreteObjectKeyFrame KeyTime="0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <Visibility>Visible</Visibility>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Unchecked"/>
+                                    <VisualState x:Name="Indeterminate">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="IndeterminateMark">
+                                                <DiscreteObjectKeyFrame KeyTime="0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <Visibility>Visible</Visibility>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Grid x:Name="CheckBox">
+                                <Border x:Name="CheckBackground" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{StaticResource PhoneBorderThickness}" Background="{TemplateBinding Background}" HorizontalAlignment="Left" Height="32" IsHitTestVisible="False" VerticalAlignment="Center" Width="32"/>
+                                <Rectangle x:Name="IndeterminateMark" Fill="{StaticResource PhoneRadioCheckBoxCheckBrush}" HorizontalAlignment="Center" Height="16" IsHitTestVisible="False" Grid.Row="0" Visibility="Collapsed" VerticalAlignment="Center" Width="16"/>
+                                <Path x:Name="CheckMark" Data="M0,119 L31,92 L119,185 L267,0 L300,24 L122,250 z" Fill="{StaticResource PhoneRadioCheckBoxCheckBrush}" HorizontalAlignment="Center" Height="18" IsHitTestVisible="False" Stretch="Fill" StrokeThickness="3" StrokeLineJoin="Round" Visibility="Collapsed" VerticalAlignment="Center" Width="24"/>
+                            </Grid>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </phone:PhoneApplicationPage.Resources>
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="{StaticResource PhoneAccentBrush}" Margin="0,-1,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <cloudoh:Banner Grid.Row="0"/>
+
+        <!--ContentPanel - place additional content here-->
+        <Grid x:Name="ContentPanel" Grid.Row="1" Background="White">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Canvas Grid.Row="0" Height="200">
+                <Canvas.Clip>
+                    <RectangleGeometry Rect="0,0,480,200"></RectangleGeometry>
+                </Canvas.Clip>
+                <Image Source="{Binding AlbumArtImageSource, Converter={StaticResource LocalImageConverterLarge}}"                                              
+                   Height="520" Width="520" Stretch="UniformToFill" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <RotateTransform CenterX="240" Angle="-20"></RotateTransform>
+                            <TranslateTransform X="-100" Y="-120"></TranslateTransform>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+            </Canvas>
+
+            <Border Grid.Row="0" Margin="0,20,20,20" Background="#88000000" VerticalAlignment="Top">
+                <TextBlock Margin="20" FontSize="26" FontWeight="Bold" TextWrapping="Wrap" VerticalAlignment="Top" Text="{Binding Title}" Foreground="White"></TextBlock>
+            </Border>
+
+            <Border Grid.Row="0" Background="{StaticResource PhoneAccentBrush}" Height="50" VerticalAlignment="Bottom" x:Name="borderInstructions" Opacity="0">
+                <TextBlock x:Name="txtInstructions" Foreground="White" FontWeight="SemiBold" Text="tap and hold to re-order tracks" FontSize="26" TextAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                    <TextBlock.RenderTransform>
+                        <TranslateTransform X="0"></TranslateTransform>
+                    </TextBlock.RenderTransform>
+                </TextBlock>
+            </Border>
+
+            <telerik:RadDataBoundListBox ItemsSource="{Binding Tracks}"
+                                         Grid.Row="1"
+                                         Margin="-12,20,12,0"
+                                         x:Name="lstTracks"                                         
+                                        ItemTemplate="{StaticResource templateSoundcloud}"
+                                        EmptyContentDisplayMode="Always"
+                                        EmptyContentTemplate="{StaticResource loadingTemplate}"
+                                        telerikCore:InteractionEffectManager.IsInteractionEnabled="True"                                        
+                                        IsCheckModeActiveChanged="LstTracks_OnIsCheckModeActiveChanged"
+                                        IsCheckModeEnabled="True"                                                
+                                        ListFooterContent="space"   
+                                        ListFooterTemplate="{StaticResource footerTemplate}"                                         
+                                        ItemAnimationMode="PlayOnNewSource,PlayOnRemove"
+                                        CheckBoxStyle="{StaticResource checkBoxTemplate}">
+
+                <telerik:RadContextMenu.ContextMenu>
+                    <telerik:RadContextMenu x:Name="contextMenu" Opening="MenuRemove_OnOpening">
+                        <telerik:RadContextMenuItem Content="remove" Tap="mnuRemove_Tap" Tag="{Binding}"></telerik:RadContextMenuItem>
+                    </telerik:RadContextMenu>
+                </telerik:RadContextMenu.ContextMenu>
+
+                <telerik:RadDataBoundListBox.ItemRemovedAnimation>
+                    <telerikCore:RadAnimationGroup>
+                        <telerikCore:RadFadeAnimation InitialDelay="0:0:0.5" Duration="0:0:0.75" EndOpacity="0" StartOpacity="1">
+                            <telerikCore:RadFadeAnimation.Easing>
+                                <CubicEase EasingMode="EaseOut"></CubicEase>
+                            </telerikCore:RadFadeAnimation.Easing>
+                        </telerikCore:RadFadeAnimation>
+                        <telerikCore:RadMoveXAnimation InitialDelay="0:0:0.5" Duration="0:0:0.75" StartX="0" EndX="-200">
+                            <telerikCore:RadMoveXAnimation.Easing>
+                                <CubicEase EasingMode="EaseOut"></CubicEase>
+                            </telerikCore:RadMoveXAnimation.Easing>
+                        </telerikCore:RadMoveXAnimation>
+                    </telerikCore:RadAnimationGroup>
+                </telerik:RadDataBoundListBox.ItemRemovedAnimation>
+
+
+                <telerik:RadDataBoundListBox.ItemAddedAnimation>
+                    <telerikCore:RadAnimationGroup>
+                        <telerikCore:RadFadeAnimation Duration="0:0:0.75" EndOpacity="1" StartOpacity="0">
+                            <telerikCore:RadFadeAnimation.Easing>
+                                <CubicEase EasingMode="EaseOut"></CubicEase>
+                            </telerikCore:RadFadeAnimation.Easing>
+                        </telerikCore:RadFadeAnimation>
+                        <telerikCore:RadMoveXAnimation  Duration="0:0:0.75" StartX="500" EndX="0">
+                            <telerikCore:RadMoveXAnimation.Easing>
+                                <CubicEase EasingMode="EaseOut"></CubicEase>
+                            </telerikCore:RadMoveXAnimation.Easing>
+                        </telerikCore:RadMoveXAnimation>
+                    </telerikCore:RadAnimationGroup>
+                </telerik:RadDataBoundListBox.ItemAddedAnimation>
+            </telerik:RadDataBoundListBox>
+
+        </Grid>
+
+    </Grid>
+
+</phone:PhoneApplicationPage>

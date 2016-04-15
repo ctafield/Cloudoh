@@ -1,0 +1,41 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:krempel="clr-namespace:Krempel.WP7.Core.Controls"
+                    xmlns:controls="clr-namespace:Cloudoh.UserControls">
+
+    <Style TargetType="krempel:HtmlTextBlock">
+        <Setter Property="Background" Value="{StaticResource PhoneTextBoxBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource PhoneTextBoxBrush}"/>
+        <Setter Property="BorderThickness" Value="{StaticResource PhoneBorderThickness}"/>
+        <Setter Property="FontFamily" Value="{StaticResource PhoneFontFamilyNormal}"/>
+        <Setter Property="FontSize" Value="30"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="Padding" Value="0,0,0,0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="krempel:HtmlTextBlock">
+                    <ItemsControl Name="PART_ItemsControl">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="controls:PathControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:PathControl">
+                    <Grid>
+                        <Path Data="{TemplateBinding Content}" Fill="{TemplateBinding Foreground}"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>
