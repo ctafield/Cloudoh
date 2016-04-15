@@ -1,0 +1,364 @@
+﻿<Application 
+    x:Class="Cloudoh.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"       
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+	xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:primitives="clr-namespace:Microsoft.Phone.Controls.Primitives;assembly=Microsoft.Phone"
+    xmlns:coding4Fun="clr-namespace:Coding4Fun.Toolkit.Controls;assembly=Coding4Fun.Toolkit.Controls"
+    xmlns:local="clr-namespace:Mitter.Convertors"
+    xmlns:cloudoh="clr-namespace:Cloudoh"
+    xmlns:userControls="clr-namespace:Cloudoh.UserControls">
+
+    <!--Application Resources-->
+    <Application.Resources>
+
+        <cloudoh:LocalizedStrings x:Key="LocalizedStrings"/>
+        <local:LocalImageConverter x:Key="LocalImageConverter"/>
+                
+        <Style TargetType="userControls:ScrollableTextBlock" >
+            <Setter Property="Foreground" Value="{StaticResource PhoneForegroundBrush}"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeMedium}"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="userControls:ScrollableTextBlock">
+                        <ScrollViewer x:Name="ScrollViewer" Foreground="{TemplateBinding Foreground}" 
+                                  Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" 
+                                  BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
+                            <StackPanel Orientation="Vertical" x:Name="StackPanel" />
+                        </ScrollViewer>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <DataTemplate x:Key="userTemplate">
+            <Grid Margin="12,0,0,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Image Grid.Column="0" Width="80" Height="80" Source="{Binding ProfileImageUrl}"></Image>
+
+                <StackPanel Grid.Column="1" Margin="15,0,0,0">
+                    <TextBlock FontSize="28" Text="{Binding FullName}" Foreground="{StaticResource PhoneAccentBrush}"></TextBlock>
+                    <TextBlock FontSize="22" Text="{Binding ScreenName}"></TextBlock>
+                    <TextBlock FontSize="20" Text="{Binding Location}"></TextBlock>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Name="templateSoundcloud">
+
+            <StackPanel Orientation="Horizontal" Margin="12,0,0,12" Tag="{Binding}">
+                <Canvas Width="120" Height="120" Margin="0,0,5,0">
+                    <Image Source="{Binding AlbumArtImageSource, Converter={StaticResource LocalImageConverter}}" Width="100" Height="100" Canvas.Left="0" Canvas.Top="0" CacheMode="BitmapCache" />
+
+                    <Ellipse Margin="25,25,0,0" Fill="Black" Opacity="0.5" Width="50" Height="50" StrokeThickness="2"></Ellipse>
+
+                    <coding4Fun:RoundButton ImageSource="/Images/76x76/dark/appbar.control.play.png" BorderBrush="White" Foreground="White" Margin="15,25,0,0" Tap="playButton_Tap">
+                    </coding4Fun:RoundButton>
+                </Canvas>
+
+                <StackPanel Tap="itemTapped" Margin="0,-3,0,0">
+
+                    <TextBlock FontFamily="/Fonts/BPreplay.otf#BPreplay" FontSize="{StaticResource PhoneFontSizeNormal}" Foreground="{StaticResource PhoneAccentBrush}" FontWeight="Normal" Text="{Binding Title}" TextWrapping="Wrap" Margin="0,1,0,2"></TextBlock>
+                    <TextBlock FontFamily="/Fonts/BPreplay.otf#BPreplay" FontSize="{StaticResource PhoneFontSizeNormal}" Text="{Binding UserName}"  Margin="0,0,0,2"></TextBlock>
+
+                    <StackPanel Orientation="Horizontal">
+
+                        <Border Background="Transparent" Width="24" Height="24" Margin="-7,0,0,0">
+                            <Rectangle Width="24" Height="24" Fill="Green">
+                                <Rectangle.OpacityMask>
+                                    <ImageBrush ImageSource="/images/76x76/light/appbar.hardware.headphones.png" />
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                        </Border>
+                        <TextBlock MinWidth="60" Foreground="DarkGray" FontFamily="/Fonts/BPreplay.otf#BPreplay" FontWeight="Normal" FontSize="18" Text="{Binding DurationFormatted}" Margin="0,4,10,0"></TextBlock>
+
+                        <Border Background="Transparent" Width="24" Height="24">
+                            <Rectangle Width="24" Height="24" Fill="Red">
+                                <Rectangle.OpacityMask>
+                                    <ImageBrush ImageSource="/images/76x76/light/appbar.clock.png" />
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                        </Border>
+                        <TextBlock MinWidth="60" Foreground="DarkGray" FontFamily="/Fonts/BPreplay.otf#BPreplay" FontWeight="Normal" FontSize="18" Text="{Binding Age}" Margin="0,4,10,0"></TextBlock>
+
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Visibility="{Binding PlayCountVisibility}">
+
+                        <Border Background="Transparent" Width="24" Height="24" Margin="-7,0,0,0">
+                            <Rectangle Width="24" Height="24" Fill="Green">
+                                <Rectangle.OpacityMask>
+                                    <ImageBrush ImageSource="/images/76x76/light/appbar.control.play.png" />
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                        </Border>
+                        <TextBlock MinWidth="60" Foreground="DarkGray" FontFamily="/Fonts/BPreplay.otf#BPreplay" FontWeight="Normal" FontSize="18" Text="{Binding PlayCount}" Margin="0,4,10,0"></TextBlock>
+
+                        <Border Background="Transparent" Width="24" Height="24">
+                            <Rectangle Width="24" Height="24" Fill="Red">
+                                <Rectangle.OpacityMask>
+                                    <ImageBrush ImageSource="/images/76x76/light/appbar.heart.png" />
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                        </Border>
+                        <TextBlock MinWidth="60" Foreground="DarkGray" FontFamily="/Fonts/BPreplay.otf#BPreplay" FontWeight="Normal" FontSize="18" Text="{Binding LikeCount}" Margin="0,4,10,0"></TextBlock>
+
+                        <Border Background="Transparent" Width="24" Height="24">
+                            <Rectangle Width="24" Height="24" Fill="CornflowerBlue">
+                                <Rectangle.OpacityMask>
+                                    <ImageBrush ImageSource="/images/76x76/light/appbar.message.png" />
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                        </Border>
+                        <TextBlock MinWidth="60" Foreground="DarkGray" FontFamily="/Fonts/BPreplay.otf#BPreplay" FontWeight="Normal" FontSize="18" Text="{Binding CommentCount}" Margin="0,4,10,0"></TextBlock>
+
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Visibility="{Binding TrackCountVisiblity}">
+
+                        <Border Background="Transparent" Width="24" Height="24" Margin="-7,0,0,0">
+                            <Rectangle Width="24" Height="24" Fill="Green">
+                                <Rectangle.OpacityMask>
+                                    <ImageBrush ImageSource="/images/76x76/light/appbar.list.png" />
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                        </Border>
+
+                        <TextBlock Foreground="DarkGray" FontFamily="/Fonts/BPreplay.otf#BPreplay" FontWeight="Normal" FontSize="18" Text="{Binding TrackCountFormatted}" Margin="0,4,10,0"></TextBlock>
+                    </StackPanel>
+
+                </StackPanel>
+            </StackPanel>
+
+        </DataTemplate>
+
+        <DataTemplate x:Name="templateSoundcloudNoCache">
+
+            <StackPanel Orientation="Horizontal" Margin="12,0,0,12" Tag="{Binding}">
+                <Canvas Width="120" Height="120" Margin="0,0,10,0">
+                    <Image Width="100" Height="100" Canvas.Left="0" Canvas.Top="0" CacheMode="BitmapCache">
+                        <Image.Source>
+                            <BitmapImage UriSource="{Binding AlbumArt}" DecodePixelHeight="100" DecodePixelWidth="100"></BitmapImage>
+                        </Image.Source>
+                    </Image>
+
+                    <Ellipse Margin="25,25,0,0" Fill="Black" Opacity="0.5" Width="50" Height="50" StrokeThickness="2"></Ellipse>
+
+                    <coding4Fun:RoundButton ImageSource="/Images/76x76/dark/appbar.control.play.png" BorderBrush="White" Foreground="White" Margin="15,25,0,0" Tap="playButton_Tap">
+                    </coding4Fun:RoundButton>
+                </Canvas>
+
+                <StackPanel Tap="itemTapped" Margin="0,-3,0,0">
+
+                    <TextBlock FontFamily="/Fonts/BPreplay.otf#BPreplay" FontSize="{StaticResource PhoneFontSizeMedium}" Foreground="{StaticResource PhoneAccentBrush}" FontWeight="Normal" Text="{Binding Title}" TextWrapping="Wrap" Margin="0,0,0,2"></TextBlock>
+                    <TextBlock FontFamily="/Fonts/BPreplay.otf#BPreplay" FontSize="{StaticResource PhoneFontSizeNormal}" Text="{Binding UserName}"  Margin="0,0,0,2"></TextBlock>
+
+                    <StackPanel Orientation="Horizontal">
+
+                        <Border Background="Transparent" Width="24" Height="24" Margin="-7,0,0,0">
+                            <Rectangle Width="24" Height="24" Fill="Green">
+                                <Rectangle.OpacityMask>
+                                    <ImageBrush ImageSource="/images/76x76/light/appbar.hardware.headphones.png" />
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                        </Border>
+                        <TextBlock MinWidth="60" Foreground="DarkGray" FontFamily="/Fonts/BPreplay.otf#BPreplay" FontWeight="Normal" FontSize="18" Text="{Binding DurationFormatted}" Margin="0,4,10,0"></TextBlock>
+
+
+                        <Border Background="Transparent" Width="24" Height="24">
+                            <Rectangle Width="24" Height="24" Fill="Red">
+                                <Rectangle.OpacityMask>
+                                    <ImageBrush ImageSource="/images/76x76/light/appbar.clock.png" />
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                        </Border>
+                        <TextBlock MinWidth="60" Foreground="DarkGray" FontFamily="/Fonts/BPreplay.otf#BPreplay" FontWeight="Normal" FontSize="18" Text="{Binding Age}" Margin="0,4,10,0"></TextBlock>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+
+                        <Border Background="Transparent" Width="24" Height="24" Margin="-7,0,0,0">
+                            <Rectangle Width="24" Height="24" Fill="Green">
+                                <Rectangle.OpacityMask>
+                                    <ImageBrush ImageSource="/images/76x76/light/appbar.control.play.png" />
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                        </Border>
+                        <TextBlock MinWidth="60" Foreground="DarkGray" FontFamily="/Fonts/BPreplay.otf#BPreplay" FontWeight="Normal" FontSize="18" Text="{Binding PlayCount}" Margin="0,4,10,0"></TextBlock>
+
+                        <Border Background="Transparent" Width="24" Height="24">
+                            <Rectangle Width="24" Height="24" Fill="Red">
+                                <Rectangle.OpacityMask>
+                                    <ImageBrush ImageSource="/images/76x76/light/appbar.heart.png" />
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                        </Border>
+                        <TextBlock MinWidth="60" Foreground="DarkGray" FontFamily="/Fonts/BPreplay.otf#BPreplay" FontWeight="Normal" FontSize="18" Text="{Binding LikeCount}" Margin="0,4,10,0"></TextBlock>
+
+                        <Border Background="Transparent" Width="24" Height="24">
+                            <Rectangle Width="24" Height="24" Fill="CornflowerBlue">
+                                <Rectangle.OpacityMask>
+                                    <ImageBrush ImageSource="/images/76x76/light/appbar.message.png" />
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                        </Border>
+                        <TextBlock MinWidth="60" Foreground="DarkGray" FontFamily="/Fonts/BPreplay.otf#BPreplay" FontWeight="Normal" FontSize="18" Text="{Binding CommentCount}" Margin="0,4,10,0"></TextBlock>
+
+                    </StackPanel>
+
+                </StackPanel>
+            </StackPanel>
+
+        </DataTemplate>
+
+        <DataTemplate x:Key="templatePlaylist">
+
+            <StackPanel Orientation="Horizontal" Margin="12,0,0,12" Tag="{Binding}">
+
+                <Canvas Width="120" Height="120" Margin="0,0,10,0">
+                    <Image Source="{Binding AlbumArtImageSource, Converter={StaticResource LocalImageConverter}}" Width="100" Height="100" Canvas.Left="0" Canvas.Top="0" />
+
+                    <Ellipse Margin="25,25,0,0" Fill="Black" Opacity="0.5" Width="50" Height="50" StrokeThickness="2"></Ellipse>
+
+                    <coding4Fun:RoundButton ImageSource="/Images/76x76/dark/appbar.control.play.png" BorderBrush="White" Foreground="White" Margin="15,25,0,0" Tap="playButton_Tap">
+                    </coding4Fun:RoundButton>
+                </Canvas>
+
+                <StackPanel Tap="itemTapped" Margin="0,-3,0,0">
+
+                    <TextBlock FontFamily="/Fonts/BPreplay.otf#BPreplay" FontSize="{StaticResource PhoneFontSizeMedium}" Foreground="{StaticResource PhoneAccentBrush}" FontWeight="Normal" Text="{Binding Title}" TextWrapping="Wrap" Margin="0,0,0,2"></TextBlock>
+
+                    <StackPanel Orientation="Horizontal">
+
+                        <Border Background="Transparent" Width="24" Height="24" Margin="-7,0,0,0">
+                            <Rectangle Width="24" Height="24" Fill="Green">
+                                <Rectangle.OpacityMask>
+                                    <ImageBrush ImageSource="/images/76x76/light/appbar.hardware.headphones.png" />
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                        </Border>
+                        <TextBlock MinWidth="60" Foreground="DarkGray" FontFamily="/Fonts/BPreplay.otf#BPreplay" FontWeight="Normal" FontSize="18" Text="{Binding DurationFormatted}" Margin="0,4,10,0"></TextBlock>
+                    </StackPanel>
+                    
+                    <StackPanel Orientation="Horizontal">
+
+                        <Border Background="Transparent" Width="24" Height="24" Margin="-7,0,0,0">
+                            <Rectangle Width="24" Height="24" Fill="Green">
+                                <Rectangle.OpacityMask>
+                                    <ImageBrush ImageSource="/images/76x76/light/appbar.list.png" />
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                        </Border>
+
+                        <TextBlock Foreground="DarkGray" FontFamily="/Fonts/BPreplay.otf#BPreplay" FontWeight="Normal" FontSize="18" Text="{Binding TrackCountFormatted}" Margin="0,4,10,0"></TextBlock>
+                    </StackPanel>
+
+                </StackPanel>
+
+            </StackPanel>
+
+        </DataTemplate>
+
+        <Style x:Key="PivotStyleRight" TargetType="phone:Pivot">
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Foreground" Value="{StaticResource PhoneForegroundBrush}"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <Grid />
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Setter Property="HeaderTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" FontFamily="/Fonts/BPreplay.otf#BPreplay" FontSize="42" Foreground="White"></TextBlock>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="phone:Pivot">
+                        <Grid HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}" >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid Background="#FFFF6600" CacheMode="BitmapCache" Grid.Row="0" Grid.RowSpan="2" />
+                            <ContentPresenter ContentTemplate="{TemplateBinding TitleTemplate}" Content="{TemplateBinding Title}" Margin="24,17,0,-7"/>
+                            <primitives:PivotHeadersControl x:Name="HeadersListElement" Background="#FFFF6600" Grid.Row="1" HorizontalAlignment="Right" Margin="0,0,12,0" />
+                            <Grid Background="{TemplateBinding Background}" CacheMode="BitmapCache" Grid.Row="2" />
+                            <ItemsPresenter x:Name="PivotItemPresenter" Margin="{TemplateBinding Padding}" Grid.Row="2"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="PivotStyle" TargetType="phone:Pivot">
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Foreground" Value="{StaticResource PhoneForegroundBrush}"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <Grid />
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Setter Property="HeaderTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" FontFamily="/Fonts/BPreplay.otf#BPreplay" FontSize="42" Foreground="White"></TextBlock>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="phone:Pivot">
+                        <Grid HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}" >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid Background="#FFFF6600" CacheMode="BitmapCache" Grid.Row="0" Grid.RowSpan="2" />
+                            <ContentPresenter ContentTemplate="{TemplateBinding TitleTemplate}" Content="{TemplateBinding Title}" Margin="24,17,0,-7"/>
+                            <primitives:PivotHeadersControl x:Name="HeadersListElement" Background="#FFFF6600" Grid.Row="1"/>
+                            <Grid Background="{TemplateBinding Background}" CacheMode="BitmapCache" Grid.Row="2" />
+                            <ItemsPresenter x:Name="PivotItemPresenter" Margin="{TemplateBinding Padding}" Grid.Row="2"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Application.Resources>
+
+    <Application.ApplicationLifetimeObjects>
+        <!--Required object that handles lifetime events for the application-->
+        <shell:PhoneApplicationService             
+            Launching="Application_Launching"
+            Closing="Application_Closing" 
+            Activated="Application_Activated"
+            Deactivated="Application_Deactivated"/>
+    </Application.ApplicationLifetimeObjects>
+
+</Application>

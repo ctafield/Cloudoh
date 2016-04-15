@@ -1,0 +1,132 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="Cloudoh.AddToPlaylist"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:cloudoh="clr-namespace:Cloudoh"
+    xmlns:telerik="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives"
+    xmlns:telerikCore="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Core"
+    xmlns:inputPrompt="clr-namespace:Telerik.Windows.Controls.InputPrompt;assembly=Telerik.Windows.Controls.Primitives"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d"
+    shell:SystemTray.IsVisible="True"
+    shell:SystemTray.ForegroundColor="MintCream"
+    shell:SystemTray.BackgroundColor="#FFFF6600">
+
+
+    <phone:PhoneApplicationPage.Resources>
+
+        <ControlTemplate x:Key="AddPlaylistTemplate" TargetType="inputPrompt:RadInputPromptControl">
+            <Border Padding="12" Background="White">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <ContentControl x:Name="PART_Title" HorizontalContentAlignment="Left" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiBold}" Margin="{StaticResource PhoneMargin}" />
+                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                        <ContentControl HorizontalContentAlignment="Left" VerticalContentAlignment="Top" x:Name="PART_Message" Margin="12, 12, 12, 24" />
+                    </StackPanel>
+                    <telerik:RadTextBox x:Name="PART_TextBox1" InputScope="Text" Grid.Row="2" />
+                    <telerik:RadPasswordBox x:Name="PART_PasswordBox1" Grid.Row="2" Visibility="Collapsed" />
+                    <CheckBox x:Name="PART_CheckBox" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Bottom" />
+                    <ContentControl Grid.Row="4" x:Name="PART_ButtonsContainer" HorizontalContentAlignment="Stretch">
+                        <ContentControl.ContentTemplate>
+                            <DataTemplate>
+                                <StackPanel x:Name="PART_ButtonsPanel" Orientation="Horizontal"></StackPanel>
+                            </DataTemplate>
+                        </ContentControl.ContentTemplate>
+                    </ContentControl>
+                </Grid>
+            </Border>
+        </ControlTemplate>
+        
+        <DataTemplate x:Key="emptyPlaylistTemplate">
+            <TextBlock Text="{Binding}" 
+                       FontSize="{StaticResource PhoneFontSizeLarge}"
+                       Foreground="DarkGray"                                              
+                       HorizontalAlignment="Left" 
+                       VerticalAlignment="Top"                       
+                       Margin="0,10,0,0"
+                       />
+        </DataTemplate>
+        
+        <DataTemplate x:Key="templatePlaylistSelect">
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="1" 
+                           FontSize="{StaticResource PhoneFontSizeLarge}" 
+                           Text="{Binding Title}" 
+                           Foreground="{StaticResource PhoneAccentBrush}" 
+                           FontWeight="SemiBold"
+                           Margin="0,10,0,12"></TextBlock>
+            </Grid>
+
+        </DataTemplate>
+
+    </phone:PhoneApplicationPage.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="{StaticResource PhoneAccentBrush}" Margin="0,-1,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <cloudoh:Banner Grid.Row="0"/>
+
+        <!--ContentPanel - place additional content here-->
+        <Grid x:Name="ContentPanel" Grid.Row="1" Background="White">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="Select playlist" Foreground="DarkGray" Margin="20,20,12,12" FontSize="{StaticResource PhoneFontSizeExtraLarge}"></TextBlock>
+
+            <telerik:RadDataBoundListBox 
+                    Grid.Row="1"
+                    Margin="20,5,12,20"
+                    ItemsSource="{Binding CloudohPlaylists}"
+                    ItemTemplate="{StaticResource templatePlaylistSelect}"
+                    telerikCore:InteractionEffectManager.IsInteractionEnabled="True"
+                    EmptyContent="You have no playlists.&#x0d;&#x0d;Use the menu to create one."               
+                    EmptyContentTemplate="{StaticResource emptyPlaylistTemplate}"                    
+                    ItemTap="playlistTap"
+                    ItemAnimationMode="PlayAll">
+                <telerik:RadDataBoundListBox.ItemAddedAnimation>
+                    <telerikCore:RadAnimationGroup>
+                        <telerikCore:RadFadeAnimation Duration="0:0:1" EndOpacity="1" StartOpacity="0" InitialDelay="0:0:0.5">
+                            <telerikCore:RadFadeAnimation.Easing>
+                                <CubicEase EasingMode="EaseOut"></CubicEase>
+                            </telerikCore:RadFadeAnimation.Easing>
+                        </telerikCore:RadFadeAnimation>
+                    </telerikCore:RadAnimationGroup>
+                </telerik:RadDataBoundListBox.ItemAddedAnimation>
+            </telerik:RadDataBoundListBox>
+
+        </Grid>
+
+    </Grid>
+
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="White" ForegroundColor="Black">
+            <shell:ApplicationBarIconButton IconUri="/Images/76x76/dark/appbar.add.png" Text="new playlist" Click="btnNew_Click"/>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+
+
+
+</phone:PhoneApplicationPage>

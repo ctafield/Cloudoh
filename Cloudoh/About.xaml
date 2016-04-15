@@ -1,0 +1,219 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="Cloudoh.About"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:cloudoh="clr-namespace:Cloudoh"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d" d:DesignHeight="768" d:DesignWidth="480"
+    shell:SystemTray.IsVisible="True"
+    shell:SystemTray.ForegroundColor="MintCream"
+    shell:SystemTray.BackgroundColor="#FFFF6600">
+
+    <Grid x:Name="LayoutRoot" Background="{StaticResource PhoneAccentBrush}" Margin="0,-1,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <cloudoh:Banner Grid.Row="0"/>
+
+        <phone:Pivot Grid.Row="1" Style="{StaticResource PivotStyle}" Background="White" >
+
+            <phone:PivotItem Header="changes">
+
+                <ScrollViewer>
+
+                    <StackPanel>
+                        <StackPanel Margin="12,0,12,12">
+                            <TextBlock Text="Version 1.12" Foreground="{StaticResource PhoneAccentBrush}" FontSize="{StaticResource PhoneFontSizeLarge}"></TextBlock>
+                            <TextBlock Text="Layout tidy up for HD devices" Margin="5,2,5,2" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeMedium}" TextWrapping="Wrap"></TextBlock>
+                        </StackPanel>
+
+                        <StackPanel Margin="12,0,12,12">
+                            <TextBlock Text="Version 1.11" Foreground="{StaticResource PhoneAccentBrush}" FontSize="{StaticResource PhoneFontSizeLarge}"></TextBlock>
+                            <TextBlock Text="Recently Played automatic playlist" Margin="5,2,5,2" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeMedium}" TextWrapping="Wrap"></TextBlock>
+                            <TextBlock Text="Changed main pivots to be tabbed icons" Margin="5,2,5,2" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeMedium}" TextWrapping="Wrap"></TextBlock>
+                        </StackPanel>
+
+                        <StackPanel Margin="12,0,12,12">
+                            <TextBlock Text="Version 1.10" Foreground="{StaticResource PhoneAccentBrush}" FontSize="{StaticResource PhoneFontSizeLarge}"></TextBlock>
+                            <TextBlock Text="Option to make small tile transparent" Margin="5,2,5,2" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeMedium}" TextWrapping="Wrap"></TextBlock>
+                        </StackPanel>
+
+                        <StackPanel Margin="12,0,12,12">
+                            <TextBlock Text="Version 1.9" Foreground="{StaticResource PhoneAccentBrush}" FontSize="{StaticResource PhoneFontSizeLarge}"></TextBlock>
+                            <TextBlock Text="Various optimisations and fixes" Margin="5,2,5,2" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeMedium}" TextWrapping="Wrap"></TextBlock>
+                        </StackPanel>
+
+                        <StackPanel Margin="12,0,12,12">
+                            <TextBlock Text="Version 1.8" Foreground="{StaticResource PhoneAccentBrush}" FontSize="{StaticResource PhoneFontSizeLarge}"></TextBlock>
+                            <TextBlock Text="Fix for playing Likes on a User Profile" Margin="5,2,5,2" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeMedium}" TextWrapping="Wrap"></TextBlock>
+                        </StackPanel>
+
+                        <StackPanel Margin="12,0,12,12">
+                            <TextBlock Text="Version 1.7" Foreground="{StaticResource PhoneAccentBrush}" FontSize="{StaticResource PhoneFontSizeLarge}"></TextBlock>
+                            <TextBlock Text="Change of font" Margin="5,2,5,2" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeMedium}" TextWrapping="Wrap"></TextBlock>
+                            <TextBlock Text="Bug fixes" Margin="5,2,5,2" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeMedium}" TextWrapping="Wrap"></TextBlock>
+                        </StackPanel>
+
+                        <StackPanel Margin="12,0,12,12">
+                            <TextBlock Text="Version 1.6" Foreground="{StaticResource PhoneAccentBrush}" FontSize="{StaticResource PhoneFontSizeLarge}"></TextBlock>
+                            <TextBlock Text="Bug fixes" Margin="5,2,5,2" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeMedium}" TextWrapping="Wrap"></TextBlock>
+                        </StackPanel>
+
+                        <StackPanel Margin="12,0,12,12">
+                            <TextBlock Text="Version 1.5" Foreground="{StaticResource PhoneAccentBrush}" FontSize="{StaticResource PhoneFontSizeLarge}"></TextBlock>
+                            <TextBlock Text="Support for SoundCloud playlists (read only)" Margin="5,2,5,2" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeMedium}" TextWrapping="Wrap"></TextBlock>
+                            <TextBlock Text="Changed SkyDrive to OneDrive" Margin="5,2,5,2" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeMedium}" TextWrapping="Wrap"></TextBlock>
+                            <TextBlock Text="Bug fixes" Margin="5,2,5,2" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeMedium}" TextWrapping="Wrap"></TextBlock>
+                        </StackPanel>
+
+                        <StackPanel Margin="12,0,12,12">
+                            <TextBlock Text="Version 1.4" Foreground="{StaticResource PhoneAccentBrush}" FontSize="{StaticResource PhoneFontSizeLarge}"></TextBlock>
+                            <TextBlock Text="Setting to opt out of sending error reports" Margin="5,2,5,2" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeMedium}" TextWrapping="Wrap"></TextBlock>
+                            <TextBlock Text="Fix for resetting search settings" Margin="5,2,5,2" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeMedium}" TextWrapping="Wrap"></TextBlock>
+                        </StackPanel>
+
+                        <StackPanel Margin="12,0,12,12">
+                            <TextBlock Text="Version 1.3" Foreground="{StaticResource PhoneAccentBrush}" FontSize="{StaticResource PhoneFontSizeLarge}"></TextBlock>
+                            <TextBlock Text="Ability to comment on tracks" Margin="5,2,5,2" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeMedium}"></TextBlock>
+                            <TextBlock Text="Extra search filters and settings" Margin="5,2,5,2" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeMedium}"></TextBlock>
+                            <TextBlock Text="Ability to pin tracks and playlists" Margin="5,2,5,2" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeMedium}"></TextBlock>
+                            <TextBlock Text="Photo pivot on user profile page" Margin="5,2,5,2" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeMedium}"></TextBlock>
+                            <TextBlock Text="Various bugs got squashed" Margin="5,2,5,2" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeMedium}"></TextBlock>
+                        </StackPanel>
+
+                        <StackPanel Margin="12,0,12,12">
+                            <TextBlock Text="Version 1.2" Foreground="{StaticResource PhoneAccentBrush}" FontSize="{StaticResource PhoneFontSizeLarge}"></TextBlock>
+                            <TextBlock Text="Enhanced the 'Now Playing' banner. Tap it!" Margin="5,2,5,2" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeMedium}"></TextBlock>
+                            <TextBlock Text="Download tracks for offline play." Margin="5,2,5,2" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeMedium}"></TextBlock>
+                            <TextBlock Text="Changes to pull to refresh." Margin="5,2,5,2" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeMedium}"></TextBlock>
+                            <TextBlock Text="Changes to user profile page." Margin="5,2,5,2" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeMedium}"></TextBlock>
+                            <TextBlock Text="Setting to not include history in music hub." Margin="5,2,5,2" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeMedium}" TextWrapping="Wrap"></TextBlock>
+                        </StackPanel>
+
+                        <StackPanel Margin="12,0,12,12">
+                            <TextBlock Text="Version 1.1" Foreground="{StaticResource PhoneAccentBrush}" FontSize="{StaticResource PhoneFontSizeLarge}"></TextBlock>
+                            <TextBlock Text="Custom playlists. (*)" Margin="5,2,5,2" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeMedium}"></TextBlock>
+                            <TextBlock Text="Backup &amp; Restore playlists to SkyDrive. (*)" Margin="5,2,5,2" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeMedium}"></TextBlock>
+                            <TextBlock Text="Share / Receive playlists via Skydrive. (*)" Margin="5,2,5,2" TextWrapping="Wrap" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeMedium}"></TextBlock>
+                            <TextBlock Text="Tap+hold on artwork to save it." Margin="5,2,5,2" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeMedium}"></TextBlock>
+                            <TextBlock Text="Pull to refresh on stream and likes." Margin="5,2,5,2" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeMedium}"></TextBlock>
+                            <TextBlock Text="Option to disable album art on tile." Margin="5,2,5,2" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeMedium}"></TextBlock>
+                            <TextBlock Text="Various bugfixes and tidy up." Margin="5,2,5,2" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeMedium}"></TextBlock>
+                        </StackPanel>
+
+                        <StackPanel Margin="12,0,12,12">
+                            <TextBlock Text="Version 1.0"  Foreground="{StaticResource PhoneAccentBrush}" FontSize="{StaticResource PhoneFontSizeLarge}"></TextBlock>
+                            <TextBlock Text="Initial Release." Margin="5,2,5,2" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeMedium}"></TextBlock>
+                        </StackPanel>
+
+                        <StackPanel Margin="12,0,12,12">
+                            <TextBlock Text="* premium feature available via In App Purchase." Margin="5,2,5,2" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeSmall}"></TextBlock>
+                        </StackPanel>
+                    </StackPanel>
+
+                </ScrollViewer>
+
+            </phone:PivotItem>
+
+            <phone:PivotItem Header="tips">
+                <StackPanel Margin="12,0,12,0">
+                    <TextBlock Foreground="{StaticResource PhoneSubtleBrush}" 
+                               TextWrapping="Wrap" 
+                               FontSize="{StaticResource PhoneFontSizeMedium}"
+                               Text="Swipe left to right on a track's details page to view other users' comments and the album art." 
+                               Margin="0,0,0,20"></TextBlock>
+                    <TextBlock Foreground="{StaticResource PhoneSubtleBrush}" 
+                               TextWrapping="Wrap" 
+                               FontSize="{StaticResource PhoneFontSizeMedium}"
+                               Text="Swipe left to right on a soundSloud playlist to view info." 
+                               Margin="0,0,0,20"></TextBlock>
+                    <TextBlock Foreground="{StaticResource PhoneSubtleBrush}" 
+                               TextWrapping="Wrap" 
+                               FontSize="{StaticResource PhoneFontSizeMedium}"
+                               Text="Tap on the 'now playing' banner text to go to the track details page." 
+                               Margin="0,0,0,20"></TextBlock>
+                    <TextBlock Foreground="{StaticResource PhoneSubtleBrush}" 
+                               TextWrapping="Wrap" 
+                               FontSize="{StaticResource PhoneFontSizeMedium}"
+                               Text="Double tap an album art to view it full screen." 
+                               Margin="0,0,0,20"></TextBlock>
+                    <TextBlock Foreground="{StaticResource PhoneSubtleBrush}" 
+                               TextWrapping="Wrap" 
+                               FontSize="{StaticResource PhoneFontSizeMedium}"
+                               Text="Hold press on an album art to save it." 
+                               Margin="0,0,0,20"></TextBlock>
+                    <TextBlock Foreground="{StaticResource PhoneSubtleBrush}" 
+                               TextWrapping="Wrap" 
+                               FontSize="{StaticResource PhoneFontSizeMedium}"
+                               Text="The one thing that can solve most of our problems is dancing." 
+                               Margin="0,0,0,20"></TextBlock>
+                </StackPanel>
+            </phone:PivotItem>
+
+            <phone:PivotItem Header="about">
+
+                <Grid x:Name="ContentPanel" Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <StackPanel>
+                        <TextBlock 
+                    Text="version" 
+                            x:Name="txtVersion"
+                    Margin="12,0,12,0" 
+                    Foreground="{StaticResource PhoneAccentBrush}"
+                    FontSize="{StaticResource PhoneFontSizeLarge}"/>
+                    </StackPanel>
+
+                    <TextBlock 
+                Grid.Row="1" 
+                Text="A beautiful, and fully featured, SoundCloud client for Windows Phone."
+                Margin="12,24,12,24" 
+                TextWrapping="Wrap"                         
+                Foreground="{StaticResource PhoneSubtleBrush}" 
+                FontSize="{StaticResource PhoneFontSizeMedium}" />
+
+                    <TextBlock 
+                Grid.Row="2"                         
+                Text="We really do appreciate each and every review that you leave for us on the store. Your feedback helps us create the app that you want!"
+                Margin="12,24,12,24" 
+                TextWrapping="Wrap"                         
+                Foreground="{StaticResource PhoneSubtleBrush}" 
+                FontSize="{StaticResource PhoneFontSizeMedium}" />
+                    <HyperlinkButton 
+                Grid.Row="3"
+                Content="rate this app" 
+                Margin="0,12,0,0" 
+                        FontWeight="Bold"
+                HorizontalAlignment="Left" 
+                Foreground="{StaticResource PhoneAccentBrush}" 
+                FontSize="{StaticResource PhoneFontSizeNormal}" 
+                Click="rateApp"/>
+                    <StackPanel Grid.Row="4" Margin="12,0,12,50" VerticalAlignment="Bottom">
+                        <TextBlock Foreground="Black" Text="Copyright 2014" Margin="0,12,0,0" FontSize="{StaticResource PhoneFontSizeMediumLarge}"/>
+                        <TextBlock Foreground="Black" Text="My Own Limited" FontSize="{StaticResource PhoneFontSizeMediumLarge}"/>
+                        <HyperlinkButton Foreground="Black" HorizontalAlignment="Left" Content="cloudoh@myownltd.co.uk" Click="ButtonBase_OnClick" Margin="-12,0,0,0"></HyperlinkButton>
+                    </StackPanel>
+                </Grid>
+
+            </phone:PivotItem>
+
+        </phone:Pivot>
+
+    </Grid>
+
+</phone:PhoneApplicationPage>

@@ -1,0 +1,144 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="Cloudoh.OpenSharedLink"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:cloudoh="clr-namespace:Cloudoh"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    xmlns:telerik="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives"
+    xmlns:telerikCore="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Core"
+    xmlns:convertors="clr-namespace:Cloudoh.Convertors"
+    mc:Ignorable="d"
+    shell:SystemTray.IsVisible="True"
+    shell:SystemTray.ForegroundColor="MintCream"
+    shell:SystemTray.BackgroundColor="#FFFF6600">
+
+    <phone:PhoneApplicationPage.Resources>
+
+        <convertors:LocalImageConverterLarge x:Key="LocalImageConverterLarge"/>
+
+        <DataTemplate x:Key="loadingTemplate">
+            <StackPanel>
+                <ProgressBar IsIndeterminate="True" VerticalAlignment="Top"></ProgressBar>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="footerTemplate">
+            <StackPanel Margin="0,40,0,0">
+                <TextBlock Text="{Binding}" Foreground="Transparent"></TextBlock>
+            </StackPanel>
+        </DataTemplate>
+
+    </phone:PhoneApplicationPage.Resources>
+    
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="{StaticResource PhoneAccentBrush}" Margin="0,-1,0,0">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <cloudoh:Banner Grid.Row="0"/>
+
+        <!--ContentPanel - place additional content here-->
+        <Grid x:Name="ContentPanel" Grid.Row="1" Background="White">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="Shared playlist" Foreground="DarkGray" Margin="20,20,12,12" FontSize="{StaticResource PhoneFontSizeExtraLarge}"></TextBlock>
+
+            <StackPanel Grid.Row="1" Margin="20" x:Name="LoadingPlaylist">
+
+                <TextBlock Text="Loading playlist." 
+                           FontSize="{StaticResource PhoneFontSizeLarge}"
+                           Foreground="{StaticResource PhoneSubtleBrush}"/>
+
+                <ProgressBar Margin="0,20,0,0" IsIndeterminate="True"></ProgressBar>
+
+            </StackPanel>
+
+            <StackPanel Grid.Row="1" Margin="20" x:Name="ErrorLoading" Visibility="Collapsed">
+
+                <TextBlock Text="Failed to load the playlist.&#x0d;&#x0d;Is it still shared?" 
+                           TextWrapping="Wrap"
+                           FontSize="{StaticResource PhoneFontSizeLarge}"
+                           Foreground="{StaticResource PhoneSubtleBrush}"/>
+
+            </StackPanel>
+            
+                            
+            <!--ContentPanel - place additional content here-->
+            <Grid x:Name="PlaylistPanel" Grid.Row="1" Background="White" Visibility="Collapsed">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Canvas Grid.Row="0" Height="200">
+                    <Canvas.Clip>
+                        <RectangleGeometry Rect="0,0,480,200"></RectangleGeometry>
+                    </Canvas.Clip>
+                    <Image Source="{Binding AlbumArtImageSource, Converter={StaticResource LocalImageConverterLarge}}"                                              
+                   Height="520" Width="520" Stretch="UniformToFill" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <RotateTransform CenterX="240" Angle="-20"></RotateTransform>
+                                <TranslateTransform X="-100" Y="-120"></TranslateTransform>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                </Canvas>
+
+                <Border Grid.Row="0" Margin="0,20,20,20" Background="#88000000" VerticalAlignment="Top">
+                    <TextBlock Margin="20" FontSize="26" FontWeight="Bold" TextWrapping="Wrap" VerticalAlignment="Top" Text="{Binding Title}" Foreground="White"></TextBlock>
+                </Border>
+
+                <telerik:RadDataBoundListBox ItemsSource="{Binding Tracks}"
+                                         Grid.Row="1"
+                                         Margin="12,20,12,0"
+                                        ItemTemplate="{StaticResource templateSoundcloud}"
+                                        EmptyContentDisplayMode="Always"
+                                        EmptyContentTemplate="{StaticResource loadingTemplate}"
+                                        telerikCore:InteractionEffectManager.IsInteractionEnabled="True"                                        
+                                        ListFooterContent="space"
+                                        ListFooterTemplate="{StaticResource footerTemplate}"                                         
+                                        ItemAnimationMode="PlayAll">
+                    <telerik:RadDataBoundListBox.ItemAddedAnimation>
+                        <telerikCore:RadAnimationGroup>
+                            <telerikCore:RadFadeAnimation Duration="0:0:0.75" EndOpacity="1" StartOpacity="0">
+                                <telerikCore:RadFadeAnimation.Easing>
+                                    <CubicEase EasingMode="EaseOut"></CubicEase>
+                                </telerikCore:RadFadeAnimation.Easing>
+                            </telerikCore:RadFadeAnimation>
+                            <telerikCore:RadMoveXAnimation  Duration="0:0:0.75" StartX="500" EndX="0">
+                                <telerikCore:RadMoveXAnimation.Easing>
+                                    <CubicEase EasingMode="EaseOut"></CubicEase>
+                                </telerikCore:RadMoveXAnimation.Easing>
+                            </telerikCore:RadMoveXAnimation>
+                        </telerikCore:RadAnimationGroup>
+                    </telerik:RadDataBoundListBox.ItemAddedAnimation>
+                </telerik:RadDataBoundListBox>
+
+            </Grid>
+
+        </Grid>
+
+    </Grid>
+
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" BackgroundColor="White" ForegroundColor="Black"  Opacity="0.85">
+            <shell:ApplicationBarIconButton IsEnabled="False" IconUri="/Images/76x76/light/appbar.save.png" Text="save" Click="mnuSave_Click"/>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+
+</phone:PhoneApplicationPage>

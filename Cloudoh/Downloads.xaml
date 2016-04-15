@@ -1,0 +1,124 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="Cloudoh.Downloads"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:cloudoh="clr-namespace:Cloudoh"
+    xmlns:classes="clr-namespace:Cloudoh.Classes"
+    xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives"
+    xmlns:controls="clr-namespace:Coding4Fun.Toolkit.Controls;assembly=Coding4Fun.Toolkit.Controls"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait"
+    Orientation="Portrait"
+    mc:Ignorable="d"    
+    shell:SystemTray.IsVisible="True"
+    shell:SystemTray.ForegroundColor="MintCream"
+    shell:SystemTray.BackgroundColor="#FFFF6600">
+
+    <phone:PhoneApplicationPage.Resources>
+        
+        <classes:PercentageConvertor x:Key="percentageConvertor" />
+
+        <DataTemplate x:Name="downloadingFooterTemplate">
+        
+            <StackPanel Margin="12">
+                <TextBlock FontSize="24" Foreground="{StaticResource PhoneSubtleBrush}" Text="The Windows Phone operating system limits downloads over mobile data to 20mb in size. Files over 100mb require external power when downloading via WiFi." TextWrapping="Wrap"></TextBlock>
+            </StackPanel>
+        </DataTemplate>
+        
+        <DataTemplate x:Name="templateDownloadQueue">
+            <StackPanel Orientation="Horizontal" Margin="12,0,0,12">
+                <Canvas Width="120" Height="120" Margin="0,0,10,0">
+                    <Image Source="{Binding Tag.AlbumArtImageSource, Converter={StaticResource LocalImageConverter}}" Width="100" Height="100" Canvas.Left="0" Canvas.Top="0" CacheMode="BitmapCache" />
+                    <Ellipse Margin="25,25,0,0" Fill="Black" Opacity="0.5" Width="50" Height="50" StrokeThickness="2"></Ellipse>
+
+                    <controls:RoundButton ImageSource="/Images/76x76/dark/appbar.control.play.png" BorderBrush="White" Foreground="White" Margin="15,25,0,0" Tap="playButton_Tap">
+                    </controls:RoundButton>
+                </Canvas>
+                <StackPanel Margin="0,-3,0,0">
+                    <TextBlock FontFamily="/Fonts/Interstate Regular.ttf#Interstate Regular" FontSize="{StaticResource PhoneFontSizeMedium}" Foreground="{StaticResource PhoneAccentBrush}" FontWeight="Normal" Text="{Binding Tag.Title}" TextWrapping="Wrap" Margin="0,0,0,2"></TextBlock>
+                    <TextBlock FontFamily="/Fonts/Interstate Regular.ttf#Interstate Regular" FontSize="{StaticResource PhoneFontSizeNormal}" Text="{Binding Tag.UserName}"  Margin="0,0,0,2"></TextBlock>
+                    <TextBlock FontFamily="/Fonts/Interstate Regular.ttf#Interstate Regular" FontSize="{StaticResource PhoneFontSizeNormal}" Foreground="{StaticResource PhoneSubtleBrush}" Text="{Binding Status}"  Margin="0,5,0,2"></TextBlock>
+                </StackPanel>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Name="templateActiveQueue">
+            <StackPanel Orientation="Horizontal" Margin="12,0,0,12">
+                <Canvas Width="120" Height="120" Margin="0,0,10,0">
+                    <Image Source="{Binding Tag.AlbumArtImageSource, Converter={StaticResource LocalImageConverter}}" Width="100" Height="100" Canvas.Left="0" Canvas.Top="0" CacheMode="BitmapCache" />
+                </Canvas>
+                <StackPanel Margin="0,-3,0,0">
+                    <TextBlock FontFamily="/Fonts/Interstate Regular.ttf#Interstate Regular" FontSize="{StaticResource PhoneFontSizeMedium}" Foreground="{StaticResource PhoneAccentBrush}" FontWeight="Normal" Text="{Binding Tag.Title}" TextWrapping="Wrap" Margin="0,0,0,2"></TextBlock>
+                    <TextBlock FontFamily="/Fonts/Interstate Regular.ttf#Interstate Regular" FontSize="{StaticResource PhoneFontSizeNormal}" Text="{Binding Tag.UserName}"  Margin="0,0,0,2"></TextBlock>
+                    <TextBlock FontFamily="/Fonts/Interstate Regular.ttf#Interstate Regular" FontSize="{StaticResource PhoneFontSizeNormal}" Foreground="{StaticResource PhoneSubtleBrush}" Text="{Binding Status}"  Margin="0,5,0,2"></TextBlock>
+                    <TextBlock FontFamily="/Fonts/Interstate Regular.ttf#Interstate Regular" FontSize="{StaticResource PhoneFontSizeNormal}" Foreground="{StaticResource PhoneSubtleBrush}" Text="{Binding Completion, Converter={StaticResource percentageConvertor}}"  Margin="0,5,0,2"></TextBlock>
+                </StackPanel>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="emptyDownloadTemplate">
+            <TextBlock Text="{Binding}" 
+        		FontSize="{StaticResource PhoneFontSizeLarge}"
+        		Foreground="{StaticResource PhoneSubtleBrush}"                                              
+        		HorizontalAlignment="Left" 
+        		VerticalAlignment="Top"
+        		TextWrapping="Wrap"
+        		Margin="12,30,0,0"
+                       />
+        </DataTemplate>
+
+    </phone:PhoneApplicationPage.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="{StaticResource PhoneAccentBrush}" Margin="0,-1,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <cloudoh:Banner Grid.Row="0"/>
+
+               
+        <phone:Pivot Grid.Row="1" Style="{StaticResource PivotStyle}" Background="White" >
+
+            <phone:PivotItem Header="active">
+
+                <telerikPrimitives:RadDataBoundListBox 
+                    x:Name="lstActiveDownloads"
+                    ItemsSource="{Binding}"
+                    ItemTemplate="{StaticResource templateActiveQueue}"
+                    ListFooterTemplate="{StaticResource downloadingFooterTemplate}"
+                    ListFooterDisplayMode="WithDataItems"
+                    EmptyContent="There are no active downloads."  
+					EmptyContentTemplate="{StaticResource emptyDownloadTemplate}">
+                </telerikPrimitives:RadDataBoundListBox>
+
+            </phone:PivotItem>
+
+            <phone:PivotItem Header="downloaded">
+
+                <telerikPrimitives:RadDataBoundListBox 
+                    x:Name="lstCompletedDownloads"
+                    ItemsSource="{Binding}"
+                    ItemTemplate="{StaticResource templateDownloadQueue}"
+                    EmptyContent="There are no downloaded tracks."  
+					EmptyContentTemplate="{StaticResource emptyDownloadTemplate}">
+                    <telerikPrimitives:RadContextMenu.ContextMenu>
+                        <telerikPrimitives:RadContextMenu Opening="MenuRemove_OnOpening">
+                            <telerikPrimitives:RadContextMenuItem Content="delete" Tap="mnuDelete_Tap" />
+                        </telerikPrimitives:RadContextMenu>
+                    </telerikPrimitives:RadContextMenu.ContextMenu>
+                </telerikPrimitives:RadDataBoundListBox>
+
+            </phone:PivotItem>
+
+        </phone:Pivot>
+
+    </Grid>
+
+</phone:PhoneApplicationPage>
